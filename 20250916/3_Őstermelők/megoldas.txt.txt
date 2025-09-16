@@ -1,0 +1,18 @@
+CREATE DATABASE ostermelo
+default charset utf8
+collate utf8_hungarian_ci;
+
+SELECT partnerek.telepules FROM partnerek
+GROUP BY partnerek.telepules
+ORDER BY partnerek.telepules ASC
+
+SELECT COUNT(kiszallitasok.sorsz) AS alkalmak FROM kiszallitasok, partnerek
+WHERE partnerek.id=kiszallitasok.partnerid
+AND partnerek.telepules LIKE "Vác"
+
+SELECT MAX(kiszallitasok.karton) AS legtobb FROM kiszallitasok
+WHERE kiszallitasok.datum LIKE "2016-05%"
+
+SELECT partnerek.telepules FROM partnerek
+GROUP BY partnerek.telepules
+HAVING COUNT(partnerek.id) > 1

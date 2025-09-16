@@ -1,0 +1,24 @@
+CREATE DATABASE varosok
+default charset utf8
+collate utf8_hungarian_ci;
+
+SELECT varos.vnev FROM varos
+WHERE vnev LIKE "%vásár%"
+
+SELECT varos.vnev, varos.nepesseg, varos.terulet FROM varos
+WHERE terulet > 400
+ORDER BY nepesseg DESC
+
+SELECT varos.vnev, varos.nepesseg FROM varos, megye
+WHERE varos.megyeid=megye.id AND nepesseg>15000 AND megye.mnev LIKE "Fejér"
+
+SELECT varostipus.vtip AS "Város típusa", COUNT(varos.id) AS "Városok száma", SUM(varos.nepesseg) AS "Népesség" FROM varostipus, varos
+WHERE varostipus.id=varos.vtipid AND vtip NOT LIKE "főváros"
+GROUP BY vtip
+
+SELECT megye.mnev, COUNT(varos.id) AS db FROM megye, varos
+WHERE megye.id=varos.megyeid
+AND varos.kisterseg NOT LIKE varos.jaras
+GROUP BY mnev
+having db > 8
+ORDER BY COUNT(varos.id) DESC

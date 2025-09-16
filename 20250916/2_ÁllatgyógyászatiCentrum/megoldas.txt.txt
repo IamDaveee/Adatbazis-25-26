@@ -1,0 +1,24 @@
+CREATE DATABASE centrum
+default charset utf8
+collate utf8_hungarian_ci;
+
+SELECT kezeles.id, kezeles.kezdet, kezeles.veg, kezeles.dij FROM kezeles
+
+SELECT gazda.nev, gazda.kerulet FROM gazda
+WHERE kerulet=17 OR kerulet=18
+ORDER BY kerulet ASC, nev DESC;
+
+SELECT kezelestipus.jelleg AS jelleg, COUNT(kezeles.id) AS darabszám FROM kezelestipus, kezeles
+WHERE kezelestipus.id=kezeles.kezelestipusId
+GROUP BY jelleg
+
+SELECT kezelestipus.jelleg, kezeles.kezdet, kezeles.veg, kezeles.dij FROM kezelestipus, kezeles
+WHERE kezelestipus.id=kezeles.kezelestipusId
+AND veg >="2017-09-01" AND veg<="2017-12-31"
+AND jelleg LIKE "%gyógy%"
+
+SELECT gazda.nev as név, COUNT(kezeles.id) AS alkalom, SUM(kezeles.dij) AS összesen FROM gazda, kezeles, kutya
+WHERE gazda.id=kutya.gazdaId AND kutya.id=kezeles.kutyaId
+AND gazda.nev LIKE "%Medgyessy%"
+GROUP BY név
+
