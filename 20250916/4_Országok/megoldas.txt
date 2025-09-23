@@ -1,0 +1,101 @@
+CREATE DATABASE orszagok
+default charset utf8
+collate utf8_hungarian_ci;
+
+SELECT orszagok.fovaros FROM orszagok
+WHERE orszagok.orszag LIKE "MADAGASZKÁR"
+
+SELECT orszagok.orszag FROM orszagok
+WHERE orszagok.fovaros LIKE "OUAGADOUGOU"
+
+SELECT orszagok.orszag FROM	orszagok
+WHERE orszagok.autojel LIKE "TT"
+
+SELECT orszagok.orszag FROM	orszagok
+WHERE orszagok.penzjel LIKE "SGD"
+
+SELECT orszagok.orszag FROM	orszagok
+WHERE orszagok.telefon LIKE "61"
+
+SELECT orszagok.terulet FROM orszagok
+WHERE orszagok.orszag LIKE "Monaco"
+
+SELECT orszagok.nepesseg FROM orszagok
+WHERE orszagok.orszag LIKE "Málta"
+
+SELECT orszagok.terulet/orszagok.nepesseg FROM orszagok
+WHERE orszagok.orszag LIKE "Japán"
+
+SELECT orszagok.orszag FROM orszagok
+WHERE orszagok.terulet/orszagok.nepesseg>500
+GROUP BY orszagok.orszag
+
+SELECT orszagok.orszag FROM orszagok
+WHERE orszagok.foldr_hely LIKE "%szigetország%"
+GROUP BY orszagok.orszag
+
+SELECT orszagok.orszag FROM orszagok
+GROUP BY orszagok.orszag
+ORDER BY terulet DESC
+LIMIT 6;
+
+SELECT orszagok.orszag FROM orszagok
+GROUP BY orszagok.orszag
+ORDER BY terulet ASC
+LIMIT 3;
+
+SELECT orszagok.orszag FROM orszagok
+GROUP BY orszagok.orszag
+ORDER BY terulet ASC
+LIMIT 39, 1;
+/*LIMIT 1 OFFSET 39*/
+
+SELECT orszagok.orszag FROM orszagok
+ORDER BY orszagok.terulet/orszagok.nepesseg ASC
+LIMIT 14,1;
+/*LIMIT 1 OFFSET 14*/
+
+SELECT orszagok.orszag FROM orszagok
+ORDER BY orszagok.terulet/orszagok.nepesseg DESC
+LIMIT 60,1;
+/*LIMIT 1 OFFSET 60*/
+
+SELECT SUM(orszagok.nepesseg) FROM orszagok
+
+SELECT SUM(orszagok.terulet)/SUM(orszagok.nepesseg) FROM orszagok
+
+SELECT orszagok.orszag FROM orszagok
+WHERE orszagok.terulet>1000000
+
+SELECT COUNT(orszagok.orszag) FROM orszagok
+WHERE orszagok.terulet BETWEEN 50000 AND 150000
+
+SELECT COUNT(orszagok.orszag) FROM orszagok
+WHERE orszagok.nepesseg<1000000
+
+SELECT COUNT(orszagok.orszag) FROM orszagok
+WHERE orszagok.nepesseg<1000000 OR orszagok.terulet<10000
+
+SELECT COUNT(orszagok.orszag) FROM orszagok
+WHERE orszagok.penznem LIKE "%kelet-karib dollár%"
+
+SELECT COUNT(orszagok.orszag) FROM orszagok
+WHERE orszagok.orszag LIKE "%ORSZÁG%";
+
+SELECT COUNT(orszagok.orszag) FROM orszagok
+WHERE orszagok.foldr_hely LIKE "%afrika%";
+
+SELECT SUM(orszagok.nepesseg) FROM orszagok
+WHERE orszagok.foldr_hely LIKE "%afrika%";
+
+SELECT SUM(orszagok.terulet) FROM orszagok
+WHERE orszagok.foldr_hely LIKE "%Európa%";
+
+SELECT SUM(orszagok.terulet)/SUM(orszagok.nepesseg) FROM orszagok
+WHERE orszagok.foldr_hely LIKE "%Európa%";
+
+SELECT COUNT(orszagok.orszag) FROM orszagok
+WHERE orszagok.autojel LIKE ""
+
+SELECT COUNT(orszagok.orszag) FROM orszagok
+WHERE orszagok.valtopenz NOT LIKE 100
