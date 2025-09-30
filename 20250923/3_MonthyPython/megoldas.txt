@@ -1,0 +1,23 @@
+CREATE DATABASE monthypython
+DEFAULT CHARSET utf8
+COLLATE utf8_hungarian_ci
+
+SELECT epizodok.nev AS "Epizód címe" FROM epizodok
+WHERE epizodok.id LIKE 5
+
+SELECT COUNT(epizodok.id) AS "Epizódok száma" FROM epizodok
+
+SELECT forgatokonyv.szinesz FROM forgatokonyv
+WHERE szinesz IS NOT NULL
+GROUP BY forgatokonyv.szinesz
+ORDER BY szinesz ASC
+
+SELECT forgatokonyv.reszletek FROM forgatokonyv
+WHERE forgatokonyv.szinesz LIKE "%John Cleese%"
+AND forgatokonyv.resz LIKE "%Italian lesson%"
+
+SELECT forgatokonyv.szinesz as színész, COUNT(forgatokonyv.reszletek) AS "bejegyzések száma" FROM forgatokonyv
+WHERE szinesz IS NOT NULL
+GROUP BY szinesz
+ORDER BY COUNT(forgatokonyv.reszletek) DESC
+LIMIT 1
