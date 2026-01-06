@@ -1,0 +1,131 @@
+//1. feladat
+create database EmberAuto
+default charset utf8
+collate utf8_hungarian_ci
+
+//2.feladat
+CREATE TABLE EMBER
+(
+    EmberID  int	NOT NULL,
+    VezNev varchar(50),
+    KerNev varchar(50),
+    Email varchar(50) NOT NULL,
+    Tel int,
+    primary key (EmberID)
+);
+
+//3. feladat
+CREATE TABLE AUTO
+(
+	RSZ varchar(7) NOT NULL,
+	Evjarat int NOT NULL,
+    Ar int DEFAULT 100,
+    Szin varchar(20),
+    EID int,
+    PRIMARY KEY (RSZ),
+    key EID (EID),
+    CONSTRAINT FK_ember_EmberID FOREIGN KEY (EID)
+        REFERENCES EMBER (EmberID)
+);
+
+//4. feladat
+ALTER TABLE auto
+ALTER COLUMN RSZ varchar(7) NOT NULL PRIMARY KEY;
+
+//5. feladat
+ALTER TABLE ember
+ADD COLUMN Város varchar(20);
+
+//6. feladat
+INSERT INTO ember (EmberID, VezNev, KerNev, Email, Tel, Város)
+VALUES (8, 'Kiss', 'József', 'kj@kissjozsi.hu', 1234567, 'Budapest'),
+       (6, 'Szabó', 'László', 'laszlo@szabo.hu', 7654321, 'Debrecen'),
+       (10, 'Nagy', 'Katalin', 'kat@nagykatalin.hu', 9876543, 'Pécs'),
+       (5, 'Kovács', 'Miklós', 'mikikovacs@kovacs.hu', 1231234, 'Kecskemét')
+
+//7. feladat
+INSERT INTO auto (RSZ, Evjarat, Ar, Szin, EID)
+VALUES ('ABC-123', 2011, 145000, "Lila", 8),
+       ('XYZ-456', 2015, 350000, "Piros", 6),
+       ('LMN-789', 2018, 550000, "Kék", 10),
+       ('DEF-321', 2010, 200000, 'Zöld', 5),
+       ('GHI-654', 2020, 600000, 'Fekete', 8),
+       ('JKL-987', 2012, 250000, 'Szürke', 6),
+       ('MNO-546', 2016, 4000000, 'Fehér', 8)
+
+//8. feladat
+UPDATE ember
+SET Email = "katlill@katlillnagy.hu"
+WHERE ember.VezNev="Nagy" AND ember.KerNev="Katalin";
+
+//9. feladat
+
+//a
+SELECT CONCAT(ember.VezNev," ",ember.KerNev), auto.RSZ FROM ember, auto
+WHERE ember.EmberID = auto.EID
+
+//b
+SELECT auto.Szin, COUNT(auto.Szin) FROM auto
+GROUP BY auto.Szin
+
+//c
+SELECT CONCAT(ember.VezNev, " ", ember.KerNev), ember.Email FROM ember
+
+//d
+SELECT auto.RSZ, auto.Szin FROM auto
+ORDER BY auto.Ar DESC
+LIMIT 1
+
+//e
+SELECT CONCAT(SUM(auto.Ar), " Ft") FROM auto
+
+//f
+SELECT auto.RSZ, CONCAT(ember.VezNev, " ", ember.KerNev) FROM auto, ember
+WHERE auto.EID = ember.EmberID AND auto.Evjarat=1990
+
+//g
+SELECT auto.Evjarat, AVG(auto.Ar) FROM auto
+GROUP BY auto.Evjarat
+
+//h
+SELECT ember.Város, COUNT(EmberID) FROM ember
+GROUP BY ember.Város
+
+//i
+SELECT ember.EmberID, ember.VezNev, ember.KerNev, ember.Email, ember.Tel, ember.Város FROM ember
+ORDER BY EmberID
+
+//j
+SELECT concat(ember.VezNev, " ", ember.KerNev) FROM ember, auto
+WHERE ember.EmberID=auto.EID AND auto.Szin="lila"
+
+//k
+SELECT concat(ember.VezNev, " ", ember.KerNev) FROM ember, auto
+WHERE ember.EmberID=auto.EID
+GROUP BY concat(ember.VezNev, " ", ember.KerNev)
+
+//l
+SELECT auto.RSZ, auto.Evjarat FROM auto
+
+//m
+SELECT concat(ember.VezNev," ", ember.KerNev), ember.Tel FROM ember, auto
+WHERE ember.EmberID=auto.EID AND auto.Ar>1000000
+
+//n
+SELECT concat(ember.VezNev," ", ember.KerNev),auto.Szin FROM ember, auto
+WHERE ember.EmberID=auto.EID AND ember.Város<>"Budapest"
+
+//o
+SELECT auto.RSZ, auto.Evjarat, auto.Ar, auto.Szin, auto.EID, concat(ember.VezNev," ", ember.KerNev) FROM ember, auto
+WHERE ember.EmberID=auto.EID
+ORDER BY auto.Evjarat DESC
+LIMIT 1
+
+//10
+DELETE FROM ember WHERE ember.VezNev="Kiss" AND ember.KerNev="József"
+
+//11
+DROP TABLE auto
+
+//12
+DROP DATABASE emberauto;
