@@ -1,0 +1,138 @@
+CREATE DATABASE Konyvtar
+DEFAULT CHARSET utf8
+COLLATE utf8_hungarian_ci;
+
+CREATE TABLE Konyvek(
+	konyvID int PRIMARY KEY AUTO_INCREMENT,
+    cim varchar(255) NOT NULL,
+    szerzo varchar(45),
+    kiadasEve int,
+    kolcsonozve boolean DEFAULT false,
+    oldalszam int,
+    borito boolean DEFAULT false
+);
+
+CREATE TABLE Olvasok(
+	olvasoID int PRIMARY KEY AUTO_INCREMENT,
+    nev varchar(40) NOT NULL,
+    kor int,
+    email varchar(25)
+);
+
+INSERT INTO Konyvek (cim, szerzo, kiadasEve, kolcsonozve, oldalszam) VALUES
+("A kis herceg", "Kiss Ferenc", 1998, false, 256),
+("Egri csillagok", "Gárdonyi Géza", 2001, true, 562),
+("A pá utcai fiúk", "Móricz Zsigmond", 2003, false, 189),
+("Szent Péter esernyője", "Teleki Pál", 1989, false, 212),
+("Utolsó kötet", "Nagy Ernő", 2011, true, 311);
+
+INSERT INTO Olvasok (nev, kor, email) VALUES
+("Balázs Dávid", 18, "balazs.david0420@gmail.com"),
+("Fazekas Csaba", 20, "fazekas.csaba0603@gmail.com"),
+("Fürész István", 19, "furesz.istvan@gmail.com"),
+("janicska Balázs", 19, "janicska.balazs@gmail.com"),
+("Laboda Keve", 21, "laboda.keve@gmail.com");
+
+ALTER TABLE Konyvek
+ADD COLUMN mufaj varchar(20)
+
+UPDATE Konyvek
+SET mufaj="Regény"
+WHERE MOD(konyvek.konyvID, 2)=0
+
+UPDATE Konyvek
+SET mufaj="Dráma"
+WHERE MOD(konyvek.konyvID, 2)=1
+
+ALTER TABLE olvasok
+CHANGE email emailcim VARCHAR(25);
+
+ALTER TABLE konyvek
+DROP COLUMN borito
+
+ALTER TABLE olvasok
+ADD UNIQUE(emailcim)
+
+SELECT konyvek.cim, konyvek.kiadasEve FROM konyvek
+
+SELECT konyvek.cim FROM konyvek
+ORDER BY konyvek.konyvID DESC
+LIMIT 3
+
+SELECT konyvek.cim FROM konyvek
+WHERE konyvek.kiadasEve < 1950
+
+SELECT COUNT(konyvek.konyvID) FROM konyvek
+
+SELECT COUNT(konyvek.konyvID) FROM konyvek
+WHERE konyvek.kolcsonozve = true
+
+SELECT olvasok.nev, olvasok.kor FROM olvasok
+ORDER BY kor desc
+
+SELECT olvasok.nev FROM olvasok
+ORDER BY kor desc
+LIMIT 1
+
+SELECT olvasok.nev FROM olvasok
+ORDER BY kor ASC
+LIMIT 1
+
+SELECT olvasok.nev FROM olvasok
+WHERE olvasok.emailcim IS NULL
+
+SELECT COUNT(olvasok.olvasoID) FROM olvasok
+
+SELECT konyvek.cim FROM konyvek
+WHERE konyvek.cim = "%and%"
+
+SELECT konyvek.cim FROM konyvek
+WHERE konyvek.szerzo = "Jane Austen"
+
+SELECT COUNT(konyvek.konyvID) FROM konyvek
+WHERE konyvek.kiadasEve>=2000
+
+SELECT olvasok.nev, olvasok.emailcim FROM olvasok
+
+SELECT olvasok.nev FROM olvasok
+WHERE olvasok.kor >=40
+
+SELECT konyvek.cim FROM konyvek
+WHERE konyvek.kolcsonozve=true
+
+SELECT COUNT(konyvek.konyvID) FROM konyvek
+WHERE konyvek.szerzo = "George Orwell"
+
+SELECT konyvek.cim FROM konyvek
+WHERE konyvek.kiadasEve BETWEEN 1900 AND 1950
+
+SELECT olvasok.nev FROM olvasok
+WHERE olvasok.kor >=30
+
+SELECT COUNT(olvasok.olvasoID) FROM olvasok
+WHERE olvasok.emailcim IS NOT NULL
+
+SELECT konyvek.cim FROM konyvek
+WHERE konyvek.cim = "T%"
+
+SELECT olvasok.nev FROM olvasok
+ORDER BY olvasok.nev
+LIMIT 3
+
+SELECT konyvek.cim FROM konyvek
+ORDER BY konyvek.kiadasEve DESC
+LIMIT 1
+
+SELECT konyvek.cim FROM konyvek
+ORDER BY konyvek.kiadasEve ASC
+LIMIT 1
+
+SELECT konyvek.cim FROM konyvek
+WHERE char_length(konyvek.cim) > 20
+
+SELECT COUNT(olvasok.olvasoID) FROM olvasok
+WHERE olvasok.kor <18
+
+SELECT AVG(konyvek.oldalszam) FROM konyvek
+
+//első körös lekérdezések utolsó lekérdezése
