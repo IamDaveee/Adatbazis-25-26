@@ -64,10 +64,5 @@ namespace Project
             label3.Visible = false;
             //label4.Visible = false;
         }
-
-        private void panel2_Click(object sender, EventArgs e)
-        {
-            panel1.Visible = false;
-        }
     }
 }
