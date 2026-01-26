@@ -1,0 +1,185 @@
+Név: Balázs Dávid
+Osztály: 12/G
+
+1.
+CREATE DATABASE Hangstudio
+DEFAULT charset utf8
+COLLATE utf8_hungarian_ci;
+
+2.
+CREATE TABLE Albumok (
+	ID int PRIMARY KEY AUTO_INCREMENT,
+    cim varchar(255) NOT NULL,
+    eloado varchar(60),
+    megjelenesEve int,
+    hosszPercben int,
+    digitalis boolean DEFAULT false,
+    korhatar int
+);
+
+CREATE TABLE Zeneszerzok(
+	ID int PRIMARY key AUTO_INCREMENT,
+    nev varchar(40) NOT NULL,
+    kor int,
+    email varchar(30)
+);
+
+3.
+INSERT INTO albumok (cim, eloado, megjelenesEve, hosszPercben, digitalis, korhatar) VALUES
+("Echoes", "Pink Floyd", 1971, 95, true, 12),
+("Thriller","Michael Jackson", 1982, 42, false, 0),
+("Hybrid Theory","Linkin Park", 2000, 38, false, 12),
+("1989","Taylor Swift", 2014, 48, true, 0),
+("Back in Black","AC/DC", 1980, 42, true, 12);
+
+4.
+INSERT INTO zeneszerzok (nev, kor, email) VALUES
+("Kovács Dániel", 28, "dani@gmail.com"),
+("Tóth Eszter", 19, NULL),
+("Nagy Ádám", 45, "adam@freemail.hu"),
+("Szalai Petra", 33, "petra@szalai.hu"),
+("Varga László", 22, NULL);
+
+5.
+ALTER TABLE albumok
+ADD COLUMN mufaj varchar(40)
+
+6.
+UPDATE albumok
+SET mufaj="rock"
+WHERE MOD(albumok.ID, 2)=0
+
+UPDATE albumok
+SET mufaj="pop"
+WHERE MOD(albumok.ID, 2)=1
+
+7.
+ALTER TABLE zeneszerzok
+CHANGE email emailcim varchar(30)
+
+8.
+ALTER TABLE albumok
+DROP COLUMN digitalis
+
+9.
+ALTER TABLE zeneszerzok
+ADD UNIQUE(emailcim)
+
+10. /*SZORGALMI*/
+a.
+SELECT COUNT(albumok.ID) FROM albumok
+
+b.
+SELECT COUNT(albumok.ID) FROM albumok
+
+c.
+SELECT COUNT(albumok.eloado) FROM albumok
+WHERE albumok.eloado="Pink Floyd"
+
+d.
+SELECT COUNT(albumok.ID) as "darab" FROM albumok
+WHERE "darab" > 3
+GROUP BY albumok.mufaj
+
+e.
+SELECT albumok.cim FROM albumok
+ORDER BY albumok.hosszPercben ASC
+LIMIT 1
+
+f.
+SELECT zeneszerzok.nev FROM zeneszerzok
+WHERE zeneszerzok.emailcim IS NULL
+
+g.
+SELECT albumok.cim FROM albumok
+WHERE albumok.cim LIKE "B%"
+
+11.
+CREATE TABLE Vasarlasok(
+	vasarlasID int PRIMARY KEY AUTO_INCREMENT,
+    albumID int,
+    zeneszerzoID int,
+    vasarlasDatuma date DEFAULT "2022-01-01",
+    hallgatasDatuma date
+);
+
+12.
+ALTER TABLE vasarlasok
+ADD FOREIGN KEY (albumID) REFERENCES albumok (ID);
+
+ALTER TABLE vasarlasok
+ADD FOREIGN KEY (zeneszerzoID) REFERENCES zeneszerzok (ID);
+
+13.
+INSERT INTO vasarlasok (vasarlasID, albumID, zeneszerzoID, vasarlasDatuma, hallgatasDatuma) VALUES
+(1, 1, 3, "2023-02-10", "2023-02-15"),
+(2, 4, 1, "2023-05-01", "2023-05-03"),
+(3, 2, 4, "2022-11-20", "2022-11-22"),
+(4, 5, 2, "2023-01-18", "2023-01-25"),
+(5, 3, 5, "2023-07-02", "2023-07-05");
+
+14.
+CREATE TABLE Studio(
+	studioID int PRIMARY KEY AUTO_INCREMENT,
+    nev varchar(50) NOT NULL,
+    cim varchar(60)
+);
+
+15.
+INSERT INTO studio (nev, cim) VALUES
+("SoundWave", "Budapest, Kossuth tér 3."),
+("Echo Studio", "Győr, Baross út 12."),
+("Harmónia Stúdió", "Debrecen, Piac utca 8.");
+
+16.
+ALTER TABLE albumok
+ADD COLUMN studioID int REFERENCES studio (ID)
+
+17.
+UPDATE albumok
+SET studioID = 1
+WHERE albumok.ID=1;
+
+UPDATE albumok
+SET studioID = 1
+WHERE albumok.ID=3;
+
+UPDATE albumok
+SET studioID = 2
+WHERE albumok.ID=4;
+
+UPDATE albumok
+SET studioID = 3
+WHERE albumok.ID=2;
+
+UPDATE albumok
+SET studioID = 2
+WHERE albumok.ID=5;
+
+18. /*SZORGALMI*/
+a.
+SELECT albumok.cim, albumok.eloado FROM albumok, vasarlasok
+WHERE vasarlasok.albumID=albumok.ID AND vasarlasok.hallgatasDatuma = "2026-01-19"
+
+b.
+SELECT albumok.cim FROM albumok, vasarlasok, studio
+WHERE vasarlasok.albumID=albumok.ID AND albumok.studioID=studio.studioID AND vasarlasok.vasarlasDatuma IS NOT NULL;
+
+c.
+SELECT zeneszerzok.nev, zeneszerzok.emailcim FROM zeneszerzok, vasarlasok
+WHERE vasarlasok.zeneszerzoID=zeneszerzok.ID AND vasarlasok.vasarlasDatuma LIKE "2023%"
+
+d.
+SELECT albumok.cim FROM albumok, vasarlasok
+WHERE vasarlasok.albumID=albumok.ID
+ORDER BY COUNT(vasarlasok.albumID) DESC
+LIMIT 1
+
+e.
+SELECT zeneszerzok.nev, albumok.cim FROM zeneszerzok, albumok, vasarlasok
+WHERE vasarlasok.albumID=albumok.ID AND vasarlasok.zeneszerzoID=zeneszerzok.ID
+GROUP BY zeneszerzok.nev
+
+f.
+SELECT albumok.cim FROM albumok, zeneszerzok
+WHERE 2026-AVG(zeneszerzok.kor) > albumok.megjelenesEve
