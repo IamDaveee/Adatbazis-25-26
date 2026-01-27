@@ -1,0 +1,100 @@
+CREATE DATABASE Oktatas
+DEFAULT charset utf8
+COLLATE utf8_hungarian_ci;
+
+CREATE TABLE Felhasznalok(
+	Felhasznalo_id int PRIMARY KEY AUTO_INCREMENT,
+    Nev varchar(100) NOT NULL,
+    Email varchar(150) NOT NULL UNIQUE,
+    Szerep ENUM ("diak", "tanar", "admin") NOT NULL,
+    RegisztracioDatuma datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Kurzusok(
+	KurzusID int AUTO_INCREMENT PRIMARY KEY,
+    Cim varchar(200) NOT NULL,
+    Leiras text,
+    TanarID int NOT NULL,
+    Letrehozva datetime DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_kurzus_felhTanar FOREIGN KEY (TanarID) REFERENCES felhasznalok (Felhasznalo_id	)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE
+);
+
+CREATE TABLE Leckek(
+	LeckeID int PRIMARY KEY AUTO_INCREMENT,
+    KurzusID int NOT NULL,
+    Cim varchar(200) NOT NULL,
+    Tartalom text,
+    sorszam int NOT NULL,
+    CONSTRAINT fk_lecke_kurzus FOREIGN KEY (KurzusID) REFERENCES kurzusok (kurzusID)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+
+CREATE TABLE Beiratkozasok(
+	BeiratkozasID int AUTO_INCREMENT PRIMARY KEY,
+    FelhasznaloID int NOT NULL,
+    KurzusID int NOT NULL,
+    Beiratkozva datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_felh_beiratk FOREIGN KEY (FelhasznaloID) REFERENCES felhasznalok (Felhasznalo_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+    CONSTRAINT fk_beiratk_kurzus FOREIGN KEY (KurzusID) REFERENCES kurzusok (KurzusID)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+    CONSTRAINT uq_beiratk UNIQUE (FelhasznaloID, KurzusID)
+);
+
+CREATE TABLE Feladatok(
+	FeladatID int AUTO_INCREMENT PRIMARY KEY,
+    LeckeID int NOT NULL,
+    Cim varchar(200) NOT NULL,
+    MaxPont int NOT NULL,
+    Hatarido datetime,
+    CONSTRAINT fk_feladat_lecke FOREIGN KEY (LeckeID) REFERENCES leckek (LeckeID)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+    CONSTRAINT chk_maxPont CHECK (MaxPont > 0)
+);
+
+CREATE TABLE Beadasok(
+	BeadasID int PRIMARY KEY AUTO_INCREMENT,
+    FeladatID int NOT NULL,
+    FelhasznaloID int NOT NULL,
+    Beadva datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    Pont int,
+    UtolsoModositas datetime,
+    CONSTRAINT fk_feladat_beadas FOREIGN KEY (FeladatID) REFERENCES Feladatok (FeladatID)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+    CONSTRAINT fk_felh_beadas FOREIGN KEY (FelhasznaloID) REFERENCES felhasznalok (Felhasznalo_id)
+);
+
+CREATE TABLE Forumtemak(
+	TemaID int AUTO_INCREMENT PRIMARY KEY,
+    KurzusID int NOT NULL,
+    FelhasznaloID int NOT NULL,
+    Cim varchar(200) NOT NULL,
+    Letrehozva datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_kurzus_forumtema FOREIGN KEY (KurzusID) REFERENCES kurzusok (KurzusID)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+    CONSTRAINT fk_felh_forumtema FOREIGN KEY (FelhasznaloID) REFERENCES felhasznalok (felhasznalo_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+
+CREATE TABLE Forumhozzaszolasok(
+	HozzaszolasID int PRIMARY KEY AUTO_INCREMENT,
+    TemaID int NOT NULL,
+    FelhasznaloID int NOT NULL,
+    Tartalom text NOT NULL,
+    Letrehozva datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_tema_hozzaszolas FOREIGN KEY (TemaID) REFERENCES Forumtemak (TemaID)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+    CONSTRAINT fk_flh_hozzaszolas FOREIGN KEY (FelhasznaloID) REFERENCES felhasznalok (felhasznalo_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
