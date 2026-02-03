@@ -3,7 +3,7 @@ DEFAULT charset utf8
 COLLATE utf8_hungarian_ci;
 
 CREATE TABLE Felhasznalok(
-	Felhasznalo_id int PRIMARY KEY AUTO_INCREMENT,
+	FelhasznaloID int PRIMARY KEY AUTO_INCREMENT,
     Nev varchar(100) NOT NULL,
     Email varchar(150) NOT NULL UNIQUE,
     Szerep ENUM ("diak", "tanar", "admin") NOT NULL,
@@ -98,3 +98,15 @@ CREATE TABLE Forumhozzaszolasok(
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
+
+--Lekérdezés 1:
+SELECT kurzusok.KurzusID, kurzusok.Cim, COUNT(beiratkozasok.FelhasznaloID) AS diakokSzama FROM beiratkozasok, kurzusok
+WHERE kurzusok.KurzusID=beiratkozasok.KurzusID
+GROUP BY kurzusok.KurzusID, kurzusok.Cim
+HAVING diakokSzama>=2
+
+--Lekérdezés 1, második megoldás:
+SELECT k.KurzusID, k.Cim, COUNT(b.FelhasznaloID) FROM kurzusok k JOIN beiratkozasok b ON k.KurzusID=b.KurzusID
+GROUP BY k.KurzusID, k.Cim
+HAVING COUNT(b.FelhasznaloID)>=2
+
