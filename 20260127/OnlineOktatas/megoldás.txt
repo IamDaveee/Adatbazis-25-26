@@ -110,3 +110,43 @@ SELECT k.KurzusID, k.Cim, COUNT(b.FelhasznaloID) FROM kurzusok k JOIN beiratkoza
 GROUP BY k.KurzusID, k.Cim
 HAVING COUNT(b.FelhasznaloID)>=2
 
+--Lekérdezés 2
+
+--Lekérdezés 2 - másik megoldás:
+
+--Lekérdezés 3:
+SELECT kurzusok.Cim AS kurzusNev, COUNT(beadasok.BeadasID) AS összesBeadas, AVG(beadasok.Pont) as atlagPontszam, MAX(beadasok.Beadva) as utolsoBeadas
+FROM kurzusok
+LEFT JOIN leckek ON kurzusok.KurzusID=leckek.KurzusID
+LEFT JOIN feladatok ON leckek.LeckeID=feladatok.LeckeID
+LEFT JOIN beadasok ON feladatok.FeladatID=beadasok.FeladatID
+GROUP BY kurzusok.Cim
+
+--Lekérdezés 4:
+SELECT kurzusok.KurzusID, kurzusok.Cim, COUNT(forumhozzaszolasok.HozzaszolasID) as hozzászólásokSzáma
+FROM kurzusok
+LEFT JOIN forumtemak ON kurzusok.KurzusID=forumtemak.KurzusID
+LEFT JOIN forumhozzaszolasok ON forumtemak.TemaID=forumhozzaszolasok.TemaID
+GROUP BY kurzusok.KurzusID, kurzusok.Cim
+ORDER BY COUNT(forumhozzaszolasok.HozzaszolasID) DESC
+
+--Nézetek
+--1
+CREATE VIEW kurzusleckeÖsszegzés AS
+SELECT felhasznalok.FelhasznaloID AS TanarNev, kurzusok.Cim AS KurzusNeve, COUNT(leckek.LeckeID) AS LeckekSzama
+FROM kurzusok
+JOIN felhasznalok ON kurzusok.TanarID=felhasznalok.FelhasznaloID
+LEFT JOIN leckek ON kurzusok.KurzusID=leckek.KurzusID
+GROUP BY felhasznalok.Nev, kurzusok.Cim
+
+--2
+CREATE VIEW tanariÖsszegzés AS
+SELECT felhasznalok.Nev AS TanarNeve, COUNT(DISTINCT kurzusok.KurzusID) AS KurzusokSzama, COUNT(beadasok.BeadasID) AS ÖsszBeadas
+FROM felhasznalok
+JOIN kurzusok ON felhasznalok.FelhasznaloID=kurzusok.TanarID
+LEFT JOIN leckek ON kurzusok.KurzusID=leckek.LeckeID
+LEFT JOIN feladatok ON leckek.LeckeID=feladatok.LeckeID
+LEFT JOIN beadasok ON feladatok.FeladatID=beadasok.FeladatID
+WHERE felhasznalok.Szerep="tanar"
+GROUP BY felhasznalok.Nev
+
