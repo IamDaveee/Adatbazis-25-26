@@ -1,0 +1,60 @@
+CREATE DATABASE city_lib
+DEFAULT CHARSET utf8
+COLLATE utf8_hungarian_ci;
+
+ALTER TABLE tetelek
+ADD UNIQUE (konyvid)
+
+ALTER TABLE tetelek
+ADD CONSTRAINT fk_tetelek_konyv
+FOREIGN KEY (konyvid) REFERENCES konyvek(id);
+
+ALTER TABLE tetelek
+ADD CONSTRAINT fk_tetelek_kolcsonzesek
+FOREIGN KEY (kolcsonzesid) REFERENCES kolcsonzesek(id);
+
+ALTER TABLE kolcsonzesek
+ADD CONSTRAINT fk_kolcsonzesek_tagok
+FOREIGN KEY (tagid) REFERENCES tagok(id);
+
+UPDATE konyvek
+SET alapar =alapar*1.10
+WHERE kategoria="Krimi"
+
+SELECT konyvek.cim, konyvek.szerzo FROM konyvek
+ORDER BY konyvek.kategoria, konyvek.cim
+
+SELECT SUM(kesedelmi_dij) AS BevételKésedelemből FROM tetelek
+
+SELECT nev, szuletesi_ev
+FROM tagok LEFT JOIN kolcsonzesek ON tagok.id=kolcsonzesek.tagid
+ORDER BY szuletesi_ev ASC
+LIMIT 3
+
+SELECT tagok.nev, tagok.lakhely
+FROM tagok INNER JOIN kolcsonzesek ON tagok.id=kolcsonzesek.tagid
+
+SELECT konyvek.kategoria, AVG(konyvek.alapar) FROM konyvek
+GROUP BY konyvek.kategoria
+
+SELECT konyvek.cim, konyvek.kategoria FROM konyvek
+WHERE konyvek.id NOT IN(
+	SELECT tetelek.konyvid FROM tetelek
+)
+ORDER BY konyvek.cim ASC
+
+#using JOIN
+##
+SELECT konyvek.cim, konyvek.kategoria
+FROM konyvek LEFT JOIN tetelek ON tetelek.konyvid = konyvek.id
+WHERE tetelek.konyvid IS NULL
+ORDER BY konyvek.cim ASC;
+##
+
+SELECT tagok.nev, SUM(tetelek.kesedelmi_dij) AS ossz_kesedelmi_dij
+FROM tagok LEFT JOIN kolcsonzesek ON kolcsonzesek.tagid = tagok.id LEFT JOIN tetelek ON tetelek.kolcsonzesid = kolcsonzesek.id
+GROUP BY tagok.id, tagok.nev
+ORDER BY tagok.nev;
+
+
+
