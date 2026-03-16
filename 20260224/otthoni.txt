@@ -1,0 +1,85 @@
+CREATE DATABASE city_lib
+DEFAULT CHARACTER SET utf8
+COLLATE utf8_hungarian_ci;
+
+ALTER TABLE tetelek
+ADD FOREIGN KEY (kolcsonzesid) REFERENCES kolcsonzesek(id)
+
+ALTER TABLE tetelek
+ADD FOREIGN KEY (konyvid) REFERENCES konyvek(id)
+
+ALTER TABLE kolcsonzesek
+ADD FOREIGN KEY (tagid) REFERENCES tagok(id)
+
+UPDATE konyvek
+SET konyvek.alapar = konyvek.alapar*1.1
+WHERE konyvek.kategoria="Krimi"
+
+SELECT konyvek.cim, konyvek.szerzo FROM konyvek
+ORDER BY konyvek.kategoria, konyvek.cim ASC
+
+SELECT SUM(tetelek.kesedelmi_dij)
+FROM kolcsonzesek 
+LEFT JOIN tetelek 
+ON kolcsonzesek.id=tetelek.kolcsonzesid
+WHERE kolcsonzesek.hatarido >= '2024-03-01'
+AND kolcsonzesek.hatarido < '2024-04-01';
+
+SELECT tagok.nev, tagok.szuletesi_ev
+FROM tagok
+LEFT JOIN kolcsonzesek
+ON tagok.id=kolcsonzesek.tagid
+WHERE kolcsonzesek.tagid IS NULL
+ORDER BY tagok.szuletesi_ev ASC
+LIMIT 3
+
+SELECT DISTINCT tagok.nev, tagok.lakhely
+FROM tagok
+INNER JOIN kolcsonzesek
+ON tagok.id = kolcsonzesek.tagid
+WHERE kolcsonzesek.datum >= '2024-04-01'
+  AND kolcsonzesek.hatarido < '2024-05-01';
+
+SELECT konyvek.kategoria, AVG(konyvek.alapar) FROM konyvek
+GROUP BY konyvek.kategoria
+
+SELECT konyvek.cim, konyvek.kategoria
+FROM konyvek
+LEFT JOIN tetelek
+ON konyvek.id=tetelek.konyvid
+LEFT JOIN kolcsonzesek
+ON tetelek.kolcsonzesid=kolcsonzesek.id
+WHERE kolcsonzesek.id IS NULL
+ORDER BY konyvek.cim
+
+SELECT tagok.nev, SUM(tetelek.kesedelmi_dij)
+FROM tagok
+LEFT JOIN kolcsonzesek
+ON tagok.id=kolcsonzesek.tagid
+LEFT JOIN tetelek
+ON kolcsonzesek.id = tetelek.kolcsonzesid
+GROUP BY tagok.nev
+
+SELECT DISTINCT kategoria FROM konyvek
+WHERE kategoria NOT IN (
+    SELECT DISTINCT k.kategoria
+    FROM konyvek k
+    INNER JOIN tetelek t
+        ON k.id = t.konyvid
+    INNER JOIN kolcsonzesek kol
+        ON t.kolcsonzesid = kol.id
+    WHERE kol.datum >= '2024-04-01'
+      AND kol.hatarido < '2024-05-01'
+);
+
+CREATE VIEW konyv_nepszeruseg AS
+SELECT konyvek.cim,
+       COUNT(tetelek.kolcsonzesid) AS kolcsonzesek_szama
+FROM konyvek
+LEFT JOIN tetelek
+ON konyvek.id = tetelek.konyvid
+GROUP BY konyvek.cim;
+
+SELECT cim FROM konyv_nepszeruseg
+ORDER BY kolcsonzesek_szama, cim ASC
+LIMIT 5
