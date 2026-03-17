@@ -1,0 +1,111 @@
+CREATE DATABASE könyvek
+DEFAULT charset utf8
+COLLATE utf8_hungarian_ci
+
+//3
+SELECT konyv.cim, konyv.ev, konyv.oldal FROM konyv
+WHERE konyv.szerzo LIKE "%Márai%"
+
+//4
+SELECT DISTINCT kiado.nev FROM kiado JOIN konyv ON kiado.kod=konyv.kiadokod
+WHERE konyv.tema LIKE "%zene%"
+
+//5
+SELECT konyv.cim, konyv.ev FROM konyv
+WHERE konyv.szerzo LIKE "%Jókai%"
+ORDER BY konyv.ev DESC
+LIMIT 1
+
+//6
+SELECT konyv.tema, COUNT(konyv.azon) as darabszam FROM konyv
+GROUP BY konyv.tema
+ORDER BY darabszam DESC
+
+//7
+UPDATE kiado
+SET kiado.nev = "Móra Ferenc Könyvkiadó"
+WHERE kiado.nev = "Móra Kiadó"
+
+//8
+SELECT konyv.cim, konyv.szerzo FROM konyv
+ORDER BY konyv.oldal DESC
+LIMIT 1
+
+//9
+SELECT * FROM konyv
+ORDER BY konyv.ev ASC
+LIMIT 10
+
+//10
+SELECT kiado.szekhely, COUNT(kiado.kod) as darabszam FROM kiado
+GROUP BY kiado.szekhely
+
+//11
+SELECT konyv.cim, kiado.nev FROM konyv LEFT JOIN kiado ON konyv.kiadokod=kiado.kod
+
+
+//12
+SELECT kiado.nev, COUNT(konyv.azon) AS darabszam FROM kiado LEFT JOIN konyv ON kiado.kod=konyv.kiadokod
+GROUP BY kiado.nev
+
+//13
+SELECT konyv.cim FROM konyv LEFT JOIN kiado ON konyv.kiadokod=kiado.kod
+WHERE kiado.kod IS NULL
+
+//14
+SELECT kiado.nev, konyv.tema, COUNT(konyv.azon) AS darabszam
+FROM kiado
+LEFT JOIN konyv
+ON kiado.kod=konyv.azon
+GROUP BY kiado.nev, konyv.tema
+
+//15
+CREATE VIEW konyv_kiado_adatok AS
+SELECT konyv.cim, konyv.szerzo, konyv.ev, CONCAT(kiado.nev , " " , kiado.szekhely) AS Kiado
+FROM konyv
+LEFT JOIN kiado
+ON konyv.kiadokod=kiado.kod
+
+//16
+CREATE VIEW tema_statisztika AS
+SELECT konyv.tema, COUNT(konyv.azon) AS darabszam FROM konyv
+GROUP BY konyv.tema
+ORDER BY darabszam DESC
+
+//17
+CREATE VIEW kiado_konyvszam AS
+SELECT kiado.nev, COUNT(konyv.azon) AS atlagKiadas
+FROM kiado 
+LEFT JOIN konyv 
+ON kiado.kod=konyv.kiadokod
+GROUP BY kiado.nev
+
+//18
+CREATE VIEW legvastagabb_konyvek AS
+SELECT konyv.cim, konyv.szerzo, konyv.oldal FROM konyv
+
+//19
+CREATE VIEW kiado_tema_osszegzes AS
+SELECT kiado.nev, konyv.tema, COUNT(konyv.azon) AS darabszam
+FROM kiado
+LEFT JOIN konyv
+ON kiado.kod=konyv.kiadokod
+GROUP BY kiado.nev, konyv.tema
+
+//20
+SELECT tema FROM tema_statisztika
+ORDER BY darabszam DESC
+LIMIT 3
+
+//21
+SELECT nev, atlagKiadas FROM kiado_konyvszam
+WHERE atlagKiadas > 4
+
+//22
+SELECT nev, COUNT(tema) temaDarab FROM kiado_tema_osszegzes
+GROUP BY nev
+HAVING temaDarab > 2
+
+//23
+SELECT szerzo FROM legvastagabb_konyvek
+ORDER BY szerzo
