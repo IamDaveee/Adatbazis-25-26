@@ -1,0 +1,120 @@
+A feladatok megoldására elkészített SQL parancsokat illessze be a feladat sorszáma után!
+
+
+1. feladat:
+CREATE DATABASE nyelviskola
+DEFAULT charset utf8
+COLLATE utf8_hungarian_ci
+
+3. feladat:
+INSERT INTO nyelvek (id, nyelv) VALUES (8, "holland")
+
+4. feladat:
+SELECT * FROM nyelvek
+ORDER BY nyelvek.nyelv ASC
+
+5. feladat:
+SELECT COUNT(nyelvek.id) FROM nyelvek
+
+6. feladat:
+SELECT nyelvek.nyelv, COUNT(vizsgak.sorsz) AS darabSzam
+FROM nyelvek
+LEFT JOIN vizsgak
+ON nyelvek.id=vizsgak.nyelvid
+GROUP BY nyelvek.nyelv
+
+7. feladat:
+SELECT jelentkezesek.nev, jelentkezesek.mobil
+FROM jelentkezesek
+JOIN vizsgak
+ON jelentkezesek.vizsga=vizsgak.sorsz
+WHERE (jelentkezesek.szulev BETWEEN 1978 AND 1988) AND (vizsgak.szint="B1")
+
+8. feladat:
+SELECT vizsgak.idopont
+FROM vizsgak
+JOIN jelentkezesek
+ON vizsgak.sorsz=jelentkezesek.vizsga
+GROUP BY vizsgak.idopont
+HAVING COUNT(jelentkezesek.sorsz) = 25
+ORDER BY vizsgak.idopont DESC
+
+9. feladat:
+SELECT vizsgak.szint, COUNT(vizsgak.sorsz) AS vizsgazo
+FROM jelentkezesek
+RIGHT JOIN vizsgak
+ON jelentkezesek.vizsga=vizsgak.sorsz
+LEFT JOIN nyelvek
+ON vizsgak.nyelvid=nyelvek.id
+WHERE nyelvek.id = (SELECT nyelvek.id FROM nyelvek WHERE nyelvek.nyelv LIKE "angol")
+GROUP BY vizsgak.szint
+ORDER BY vizsgazo DESC
+
+10. feladat:
+SELECT vizsgak.idopont, jelentkezesek.nev
+FROM vizsgak
+LEFT JOIN jelentkezesek
+ON vizsgak.sorsz=jelentkezesek.vizsga
+GROUP BY vizsgak.idopont, jelentkezesek.sorsz
+
+11. feladat:
+SELECT nyelvek.nyelv, vizsgak.idopont
+FROM nyelvek
+LEFT JOIN vizsgak
+ON nyelvek.id=vizsgak.nyelvid
+GROUP BY nyelvek.nyelv, vizsgak.sorsz
+
+12. feladat:
+SELECT vizsgak.*, jelentkezesek.nev, jelentkezesek.mobil
+FROM vizsgak
+LEFT JOIN jelentkezesek
+ON vizsgak.sorsz=jelentkezesek.vizsga
+
+13. feladat:
+SELECT nyelvek.nyelv, COUNT(vizsgak.sorsz) AS vizsgazokSzama
+FROM nyelvek
+LEFT JOIN vizsgak
+ON nyelvek.id=vizsgak.nyelvid
+GROUP BY nyelvek.nyelv
+
+14. feladat:
+CREATE VIEW vizsga_lista AS
+SELECT vizsgak.sorsz, vizsgak.idopont, vizsgak.szint, nyelvek.nyelv
+FROM vizsgak
+JOIN nyelvek
+ON vizsgak.nyelvid=nyelvek.id
+
+15. feladat:
+CREATE VIEW jelentkezok_reszletes AS
+SELECT jelentkezesek.nev, jelentkezesek.mobil, jelentkezesek.szulev, nyelvek.nyelv, vizsgak.szint
+FROM jelentkezesek, vizsgak, nyelvek
+WHERE jelentkezesek.vizsga=vizsgak.sorsz AND vizsgak.nyelvid=nyelvek.id
+
+16. feladat:
+CREATE VIEW nyelvi_vizsgak_szama AS
+SELECT nyelvek.nyelv, COUNT(vizsgak.sorsz) AS vizsgakSzama
+FROM nyelvek
+LEFT JOIN vizsgak
+ON nyelvek.id=vizsgak.nyelvid
+GROUP BY nyelvek.nyelv
+
+17. feladat:
+CREATE VIEW vizsga_jelentkezok_szama AS
+SELECT vizsgak.sorsz, vizsgak.idopont, vizsgak.szint, COUNT(jelentkezesek.sorsz) AS jelentkezokSzama
+FROM vizsgak
+LEFT JOIN jelentkezesek
+ON vizsgak.sorsz=jelentkezesek.vizsga
+GROUP BY vizsgak.sorsz
+
+18. feladat:
+SELECT * FROM vizsga_lista
+WHERE vizsga_lista.szint="B2"
+ORDER BY vizsga_lista.idopont ASC
+
+19. feladat:
+SELECT nev, nyelv FROM jelentkezok_reszletes
+WHERE szulev < 2000
+
+20. feladat:
+SELECT sorsz, szint, jelentkezokSzama FROM vizsga_jelentkezok_szama
+WHERE jelentkezokSzama >= 5
