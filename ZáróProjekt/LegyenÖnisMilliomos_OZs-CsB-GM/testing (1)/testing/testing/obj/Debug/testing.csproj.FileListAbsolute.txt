@@ -1,0 +1,51 @@
+C:\Users\garai.mark.417\source\repos\testing\testing\bin\Debug\testing.exe.config
+C:\Users\garai.mark.417\source\repos\testing\testing\bin\Debug\testing.exe
+C:\Users\garai.mark.417\source\repos\testing\testing\bin\Debug\testing.pdb
+C:\Users\garai.mark.417\source\repos\testing\testing\obj\Debug\testing.csproj.AssemblyReference.cache
+C:\Users\garai.mark.417\source\repos\testing\testing\obj\Debug\testing.Form1.resources
+C:\Users\garai.mark.417\source\repos\testing\testing\obj\Debug\testing.Properties.Resources.resources
+C:\Users\garai.mark.417\source\repos\testing\testing\obj\Debug\testing.csproj.GenerateResource.cache
+C:\Users\garai.mark.417\source\repos\testing\testing\obj\Debug\testing.csproj.CoreCompileInputs.cache
+C:\Users\garai.mark.417\source\repos\testing\testing\obj\Debug\testing.exe
+C:\Users\garai.mark.417\source\repos\testing\testing\obj\Debug\testing.pdb
+C:\Users\olahz\source\repos\testing\testing\bin\Debug\testing.exe.config
+C:\Users\olahz\source\repos\testing\testing\bin\Debug\testing.exe
+C:\Users\olahz\source\repos\testing\testing\bin\Debug\testing.pdb
+C:\Users\olahz\source\repos\testing\testing\obj\Debug\testing.csproj.AssemblyReference.cache
+C:\Users\olahz\source\repos\testing\testing\obj\Debug\testing.exe.config
+C:\Users\olahz\source\repos\testing\testing\obj\Debug\testing.Form1.resources
+C:\Users\olahz\source\repos\testing\testing\obj\Debug\testing.Properties.Resources.resources
+C:\Users\olahz\source\repos\testing\testing\obj\Debug\testing.csproj.GenerateResource.cache
+C:\Users\olahz\source\repos\testing\testing\obj\Debug\testing.csproj.CoreCompileInputs.cache
+C:\Users\olahz\source\repos\testing\testing\obj\Debug\testing.exe
+C:\Users\olahz\source\repos\testing\testing\obj\Debug\testing.pdb
+C:\Users\olah.zsombor.419\Desktop\testing (1)\testing\testing\bin\Debug\testing.exe.config
+C:\Users\olah.zsombor.419\Desktop\testing (1)\testing\testing\bin\Debug\testing.exe
+C:\Users\olah.zsombor.419\Desktop\testing (1)\testing\testing\bin\Debug\testing.pdb
+C:\Users\olah.zsombor.419\Desktop\testing (1)\testing\testing\obj\Debug\testing.csproj.AssemblyReference.cache
+C:\Users\olah.zsombor.419\Desktop\testing (1)\testing\testing\obj\Debug\testing.Form1.resources
+C:\Users\olah.zsombor.419\Desktop\testing (1)\testing\testing\obj\Debug\testing.Properties.Resources.resources
+C:\Users\olah.zsombor.419\Desktop\testing (1)\testing\testing\obj\Debug\testing.csproj.GenerateResource.cache
+C:\Users\olah.zsombor.419\Desktop\testing (1)\testing\testing\obj\Debug\testing.csproj.CoreCompileInputs.cache
+C:\Users\olah.zsombor.419\Desktop\testing (1)\testing\testing\obj\Debug\testing.exe
+C:\Users\olah.zsombor.419\Desktop\testing (1)\testing\testing\obj\Debug\testing.pdb
+C:\Users\olah.zsombor.419\source\repos\testing (1)\testing\testing\bin\Debug\testing.exe.config
+C:\Users\olah.zsombor.419\source\repos\testing (1)\testing\testing\bin\Debug\testing.exe
+C:\Users\olah.zsombor.419\source\repos\testing (1)\testing\testing\bin\Debug\testing.pdb
+C:\Users\olah.zsombor.419\source\repos\testing (1)\testing\testing\obj\Debug\testing.csproj.AssemblyReference.cache
+C:\Users\olah.zsombor.419\source\repos\testing (1)\testing\testing\obj\Debug\testing.Form1.resources
+C:\Users\olah.zsombor.419\source\repos\testing (1)\testing\testing\obj\Debug\testing.Properties.Resources.resources
+C:\Users\olah.zsombor.419\source\repos\testing (1)\testing\testing\obj\Debug\testing.csproj.GenerateResource.cache
+C:\Users\olah.zsombor.419\source\repos\testing (1)\testing\testing\obj\Debug\testing.csproj.CoreCompileInputs.cache
+C:\Users\olah.zsombor.419\source\repos\testing (1)\testing\testing\obj\Debug\testing.exe
+C:\Users\olah.zsombor.419\source\repos\testing (1)\testing\testing\obj\Debug\testing.pdb
+H:\javitáshoz\12G_játékok\FinalProjekt\testing (1)\testing\testing\bin\Debug\testing.exe.config
+H:\javitáshoz\12G_játékok\FinalProjekt\testing (1)\testing\testing\bin\Debug\testing.exe
+H:\javitáshoz\12G_játékok\FinalProjekt\testing (1)\testing\testing\bin\Debug\testing.pdb
+H:\javitáshoz\12G_játékok\FinalProjekt\testing (1)\testing\testing\obj\Debug\testing.csproj.AssemblyReference.cache
+H:\javitáshoz\12G_játékok\FinalProjekt\testing (1)\testing\testing\obj\Debug\testing.Form1.resources
+H:\javitáshoz\12G_játékok\FinalProjekt\testing (1)\testing\testing\obj\Debug\testing.Properties.Resources.resources
+H:\javitáshoz\12G_játékok\FinalProjekt\testing (1)\testing\testing\obj\Debug\testing.csproj.GenerateResource.cache
+H:\javitáshoz\12G_játékok\FinalProjekt\testing (1)\testing\testing\obj\Debug\testing.csproj.CoreCompileInputs.cache
+H:\javitáshoz\12G_játékok\FinalProjekt\testing (1)\testing\testing\obj\Debug\testing.exe
+H:\javitáshoz\12G_játékok\FinalProjekt\testing (1)\testing\testing\obj\Debug\testing.pdb
