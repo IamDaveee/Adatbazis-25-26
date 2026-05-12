@@ -1,0 +1,59 @@
+CREATE DATABASE IdopontFoglalas
+default charset utf8
+COLLATE utf8_hungarian_ci
+USE IdopontFoglalas;
+
+CREATE TABLE `users`(
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `username` varchar(20) NOT NULL UNIQUE,
+    `password` varchar(255) NOT NULL,
+    `mobile` varchar(20) NOT NULL UNIQUE,
+    `email` varchar(50) NOT NULL UNIQUE
+);
+CREATE TABLE `idopont`(
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `userId` BIGINT UNSIGNED  NOT NULL,
+    `szereloId` BIGINT UNSIGNED NOT NULL,
+    `date` date NOT NULL,
+    `time` time NOT NULL
+);
+CREATE TABLE `szerelo`(
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `name` varchar(20) NOT NULL,
+    `mobile` int NOT NULL UNIQUE,
+    `specialist` varchar(20) NOT NULL,
+    `oradij` int NOT NULL
+);
+
+ALTER TABLE
+    `idopont` ADD CONSTRAINT `idopont_szereloid_foreign` FOREIGN KEY(`szereloId`) REFERENCES `szerelo`(`id`);
+ALTER TABLE
+    `idopont` ADD CONSTRAINT `idopont_userid_foreign` FOREIGN KEY(`userId`) REFERENCES `users`(`id`);
+
+USE IdopontFoglalas;
+
+INSERT INTO `users` (`username`, `password`, `mobile`, `email`) VALUES
+('user01', 123456, 362012345, 'user01@email.com'),
+('user02', 123456, 362023456, 'user02@email.com'),
+('user03', 123456, 362034567, 'user03@email.com'),
+('user04', 123456, 362045678, 'user04@email.com'),
+('user05', 123456, 362056789, 'user05@email.com');
+
+INSERT INTO `szerelo` (`name`, `mobile`, `specialist`, `oradij`) VALUES
+('Kovacs Bela', 363012345, 'Motor', 12000),
+('Nagy Peter', 363023456, 'Fek', 10000),
+('Toth Laszlo', 363034567, 'Futomu', 11000),
+('Szabo Adam', 363045678, 'Elektronika', 13000),
+('Varga Zoltan', 363056789, 'Klima', 9000);
+
+INSERT INTO `idopont` (`userId`, `szereloId`, `date`, `time`) VALUES
+(1, 1, '2026-05-13', '08:00:00'),
+(2, 2, '2026-05-13', '09:30:00'),
+(3, 3, '2026-05-14', '10:00:00'),
+(4, 4, '2026-05-14', '11:30:00'),
+(5, 5, '2026-05-15', '13:00:00'),
+(1, 2, '2026-05-16', '14:00:00'),
+(2, 3, '2026-05-16', '15:30:00'),
+(3, 4, '2026-05-17', '08:30:00'),
+(4, 5, '2026-05-17', '10:30:00'),
+(5, 1, '2026-05-18', '12:00:00');
